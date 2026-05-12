@@ -96,11 +96,12 @@ df["surface_tier"] = pd.cut(
 )
 
 df["room_tier"] = df["room_count"].apply(
-    lambda x: "Studio" if pd.isna(x) else
+    lambda x: ("Studio" if pd.isna(x) else
               "1 room" if x == 1 else
               "2 rooms" if x == 2 else
               "3 rooms" if x == 3 else
               "4+ rooms"
+    )
 )
 
 df["rent_tier"] = pd.cut(
