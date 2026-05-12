@@ -1,3 +1,5 @@
+# scrape.py
+
 import os
 import requests
 import pandas as pd
@@ -6,7 +8,7 @@ from datetime import datetime
 from supabase import create_client
 import time
 
-# Supabase credentials from environment variables
+# Supabase credentials
 SUPABASE_URL = os.environ["SUPABASE_URL"]
 SUPABASE_KEY = os.environ["SUPABASE_KEY"]
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -14,7 +16,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 # Scraper
 start_url = "https://www.rent.nl/en/room/"
 headers = {
-    "User-Agent": "Mozilla/5.0 (Workshop scraper)",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
 }
 rows = []
 scrape_time = datetime.now().isoformat()
@@ -102,21 +104,21 @@ df["rent_per_sqm"] = (
     df["rent_eur"] / df["surface_sqm"].str.replace("m²", "").astype(float)
 ).round(2)
 
+# Alerts
+avg_rent = df["rent_eur"].mean()
+if avg_rent > 1500:
+    print(f"⚠️ ALERT: Average rent (€{avg_rent:.2f}) exceeded €1500!")
+else:
+    print(f"✅ Average rent is €{avg_rent:.2f} — within normal range")
 
- avg_rent = df["rent_eur"].mean()
- if avg_rent > 1500:
-     print(f"⚠️ ALERT: Average rent (€{avg_rent:.2f}) exceeded €1500!")
- else:
-     print(f"✅ Average rent is €{avg_rent:.2f} — within normal range")
-
+# Append to CSV
 filename = "rent_nl.csv"
-
 if os.path.exists(filename):
     df.to_csv(filename, mode="a", header=False, index=False)
 else:
     df.to_csv(filename, index=False)
-
 print(f"Appended {len(df)} rows — total file now has historical data")
+
 # Push to Supabase
 insert_rows = []
 for _, row in df.iterrows():
