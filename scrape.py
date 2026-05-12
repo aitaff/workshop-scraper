@@ -100,9 +100,10 @@ df["rent_tier"] = pd.cut(
     labels=["Budget (<€700)", "Mid (€700-1000)", "High (€1000-1500)", "Premium (€1500+)"]
 )
 
-df["rent_per_sqm"] = (df["rent_eur"] / df["surface_sqm"].str.replace("m²", "").astype(float)).round(2)
+df["rent_per_sqm"] = (df["rent_eur"] / df["surface_sqm"].str.replace("m²", "").astype(float)
+).round(2)
 
-# Alerts
+#Alerts
 avg_rent = df["rent_eur"].mean()
 if avg_rent > 1500:
     print(f"⚠️ ALERT: Average rent (€{avg_rent:.2f}) exceeded €1500!")
