@@ -105,11 +105,11 @@ df["rent_per_sqm"] = (
 ).round(2)
 
 # Alerts
-avg_rent = df["rent_eur"].mean()
-    if avg_rent > 1500:
-        print(f"⚠️ ALERT: Average rent (€{avg_rent:.2f}) exceeded €1500!")
-    else:
-        print(f"✅ Average rent is €{avg_rent:.2f} — within normal range")
+#avg_rent = df["rent_eur"].mean()
+#if avg_rent > 1500:
+   # print(f"⚠️ ALERT: Average rent (€{avg_rent:.2f}) exceeded €1500!")
+#else:
+    #print(f"✅ Average rent is €{avg_rent:.2f} — within normal range")
 
 # Append to CSV
 filename = "rent_nl.csv"
