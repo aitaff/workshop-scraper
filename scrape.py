@@ -101,8 +101,7 @@ df["rent_tier"] = pd.cut(
 )
 
 df["rent_per_sqm"] = (
-    df["rent_eur"] / df["surface_sqm"].str.replace("m²", "").astype(float)
-).round(2)
+    df["rent_eur"] / df["surface_sqm"].str.replace("m²", "").astype(float)).round(2)
 
 # Alerts
 #avg_rent = df["rent_eur"].mean()
